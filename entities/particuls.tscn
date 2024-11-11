@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp27a341xfgk1"]
+
+[ext_resource type="Texture2D" uid="uid://b56jc6plj4nxn" path="res://assets/images/tile sets/smoke.png" id="1_y5tvb"]
+[ext_resource type="Script" path="res://assets/scripts/puff_out.gd" id="2_krcdv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kcbpj"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_5snqh"]
+_data = [Vector2(0.0189394, 0.954717), 0.0, 0.0, 0, 0, Vector2(0.981061, 0.230189), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Particuls" type="Node2D"]
+script = ExtResource("2_krcdv")
+
+[node name="Puff out" type="CPUParticles2D" parent="."]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_kcbpj")
+emitting = false
+amount = 4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.5
+texture = ExtResource("1_y5tvb")
+emission_shape = 3
+emission_rect_extents = Vector2(4, 4)
+gravity = Vector2(0, 0)
+angle_min = 1.0
+angle_max = 90.0
+scale_amount_max = 1.5
+scale_amount_curve = SubResource("Curve_5snqh")
+anim_speed_min = 1.0
+anim_speed_max = 3.0
+
+[connection signal="finished" from="Puff out" to="." method="_on_puff_out_finished"]

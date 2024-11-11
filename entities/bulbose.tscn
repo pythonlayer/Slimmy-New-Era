@@ -1,0 +1,123 @@
+[gd_scene load_steps=12 format=3 uid="uid://b6xqigl8xbqn7"]
+
+[ext_resource type="Texture2D" uid="uid://5hlbi27xxir1" path="res://assets/images/bulbose.png" id="1_1qc56"]
+[ext_resource type="Script" path="res://entities/bulbose.gd" id="1_t7e10"]
+[ext_resource type="PackedScene" uid="uid://xj5cl7c10v03" path="res://core/componants/move.tscn" id="2_38l6x"]
+[ext_resource type="PackedScene" uid="uid://cmlvn0dad06ff" path="res://core/componants/collision.tscn" id="4_ngmrn"]
+
+[sub_resource type="Animation" id="Animation_ljnwc"]
+resource_name = "walk"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 2]
+}
+
+[sub_resource type="Animation" id="Animation_u6vtc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_d7rip"]
+resource_name = "attack"
+length = 0.25
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [3, 5, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_q6at3"]
+resource_name = "die"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a83a2"]
+_data = {
+"RESET": SubResource("Animation_u6vtc"),
+"attack": SubResource("Animation_d7rip"),
+"die": SubResource("Animation_q6at3"),
+"walk": SubResource("Animation_ljnwc")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nwenq"]
+size = Vector2(14, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mugfg"]
+size = Vector2(10, 3)
+
+[node name="Bulbose" type="CharacterBody2D"]
+script = ExtResource("1_t7e10")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_1qc56")
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a83a2")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 10.5)
+shape = SubResource("RectangleShape2D_nwenq")
+
+[node name="Move" parent="." node_paths=PackedStringArray("wall", "ground_check", "sprite") instance=ExtResource("2_38l6x")]
+speed = -25.0
+wall = NodePath("../RayCast2D")
+ground_check = NodePath("../RayCast2D2")
+sprite = NodePath("../Sprite2D")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 2.5)
+target_position = Vector2(16, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+target_position = Vector2(15, 16)
+
+[node name="HitBox" parent="." instance=ExtResource("4_ngmrn")]
+base_score = 200
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(1, -3.5)
+shape = SubResource("RectangleShape2D_mugfg")
+debug_color = Color(0.972971, 0, 0.437301, 0.42)

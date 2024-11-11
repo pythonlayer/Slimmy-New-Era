@@ -1,0 +1,313 @@
+[gd_scene load_steps=14 format=3 uid="uid://soh7ouj8arp7"]
+
+[ext_resource type="Script" path="res://assets/scripts/ui_1.gd" id="1_m85gp"]
+[ext_resource type="LabelSettings" uid="uid://q0cf7sko03h8" path="res://assets/resources/labaldefault.tres" id="2_5voyb"]
+[ext_resource type="FontFile" uid="uid://rvixoigggb3s" path="res://assets/fonts/SMW.otf" id="3_e33jy"]
+[ext_resource type="Texture2D" uid="uid://dklsdtvgntlfv" path="res://assets/images/tile sets/C.png" id="4_1q4hy"]
+[ext_resource type="Material" uid="uid://cca5e5lxtit6g" path="res://assets/shaders/new_shader_material.tres" id="5_ee3kk"]
+[ext_resource type="Texture2D" uid="uid://bm1u23b7af8xo" path="res://assets/images/Title.png" id="6_l2tsm"]
+[ext_resource type="Texture2D" uid="uid://b2tealofla6n0" path="res://assets/images/Godot.png" id="7_nbviy"]
+
+[sub_resource type="GDScript" id="GDScript_xucgs"]
+script/source = "extends ColorRect
+
+@export var target_opacity: float = 0.25  # The target opacity when the player is inside
+@export var fade_speed: float = 1.0        # Speed of the opacity change
+
+var fade_timer: float = 0.0                # Timer for fading
+var is_fading_in: bool = false              # Flag for fading in
+var is_fading_out: bool = false             # Flag for fading out
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	# Initialize the color and opacity
+	modulate.a = 1.0  # Start fully opaque
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if is_fading_in:
+		# Gradually lower the opacity
+		fade_timer += delta * fade_speed
+		modulate.a = lerp(modulate.a, target_opacity, fade_timer)
+		if modulate.a <= target_opacity:
+			is_fading_in = false  # Stop fading in when we reach target
+
+	elif is_fading_out:
+		# Gradually restore the opacity
+		fade_timer += delta * fade_speed
+		modulate.a = lerp(modulate.a, 1.0, fade_timer)
+		if modulate.a >= 1.0:
+			is_fading_out = false  # Stop fading out when we reach fully opaque
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"Player\"):  # Check if the body is the player
+		is_fading_in = true  # Start fading in
+		fade_timer = 0.0  # Reset timer for the fade
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group(\"Player\"):  # Check if the body is the player
+		is_fading_out = true  # Start fading out
+		fade_timer = 0.0  # Reset timer for the fade
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_efypg"]
+line_spacing = -1.0
+font = ExtResource("3_e33jy")
+font_size = 8
+font_color = Color(0.0705882, 0.305882, 0.537255, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_30umn"]
+line_spacing = 0.0
+font = ExtResource("3_e33jy")
+font_size = 8
+font_color = Color(0.0705882, 0.305882, 0.537255, 1)
+
+[sub_resource type="Animation" id="Animation_2kqsn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/score3:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/Godot:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/ColorRect3:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/ColorRect3:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/score4:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_47kqa"]
+resource_name = "welcome"
+length = 4.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/score3:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["- MADE BY  -
+ Samine", "- MADE IN -", ""]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Control/Godot:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("CanvasLayer/ColorRect3:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/ColorRect3:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 3.96667, 4.36667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/score4:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jclul"]
+_data = {
+"RESET": SubResource("Animation_2kqsn"),
+"welcome": SubResource("Animation_47kqa")
+}
+
+[node name="Control" type="CanvasLayer"]
+script = ExtResource("1_m85gp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 240.0
+offset_bottom = 20.0
+color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_xucgs")
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+offset_top = 136.0
+offset_right = 240.0
+offset_bottom = 148.0
+color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_xucgs")
+
+[node name="score" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+texture_repeat = 1
+offset_left = 58.0
+offset_top = 135.0
+offset_right = 187.0
+offset_bottom = 159.0
+text = "  2020 , 2024  Salmino"
+label_settings = ExtResource("2_5voyb")
+
+[node name="score2" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+offset_left = 117.0
+offset_top = 38.0
+offset_right = 237.0
+offset_bottom = 61.0
+text = "TM"
+label_settings = SubResource("LabelSettings_efypg")
+
+[node name="C" type="Sprite2D" parent="CanvasLayer"]
+texture_filter = 1
+position = Vector2(61, 141)
+scale = Vector2(0.46875, 0.4375)
+texture = ExtResource("4_1q4hy")
+
+[node name="Title" type="Sprite2D" parent="CanvasLayer"]
+texture_filter = 1
+material = ExtResource("5_ee3kk")
+position = Vector2(67, 65)
+texture = ExtResource("6_l2tsm")
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
+offset_right = 240.0
+offset_bottom = 148.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.264
+offset_top = 63.0
+offset_right = 40.0
+offset_bottom = 93.084
+
+[node name="Godot" type="Sprite2D" parent="CanvasLayer/Control"]
+visible = false
+texture_filter = 1
+texture = ExtResource("7_nbviy")
+
+[node name="score3" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+texture_repeat = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+label_settings = ExtResource("2_5voyb")
+horizontal_alignment = 1
+
+[node name="score4" type="Label" parent="CanvasLayer"]
+visible = false
+texture_filter = 1
+texture_repeat = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = 40.0
+offset_right = 2.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+text = "Godot"
+label_settings = SubResource("LabelSettings_30umn")
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.6
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jclul")
+}
+
+[connection signal="timeout" from="Timer" to="." method="add_time"]

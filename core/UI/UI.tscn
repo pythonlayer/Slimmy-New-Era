@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://dwwxqd04mnkw2"]
+
+[ext_resource type="Script" path="res://assets/scripts/ui.gd" id="1_bsog3"]
+[ext_resource type="LabelSettings" uid="uid://q0cf7sko03h8" path="res://assets/resources/labaldefault.tres" id="1_qfniy"]
+[ext_resource type="Texture2D" uid="uid://4pvs8hva8qjv" path="res://assets/images/lives-counter.png" id="2_ymde8"]
+[ext_resource type="Material" uid="uid://cca5e5lxtit6g" path="res://assets/shaders/new_shader_material.tres" id="3_yep11"]
+[ext_resource type="Shader" path="res://assets/shaders/ligthen.gdshader" id="4_uhbr3"]
+
+[sub_resource type="GDScript" id="GDScript_xucgs"]
+script/source = "extends ColorRect
+
+@export var target_opacity: float = 0.25  # The target opacity when the player is inside
+@export var fade_speed: float = 1.0        # Speed of the opacity change
+
+var fade_timer: float = 0.0                # Timer for fading
+var is_fading_in: bool = false              # Flag for fading in
+var is_fading_out: bool = false             # Flag for fading out
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	# Initialize the color and opacity
+	modulate.a = 1.0  # Start fully opaque
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if is_fading_in:
+		# Gradually lower the opacity
+		fade_timer += delta * fade_speed
+		modulate.a = lerp(modulate.a, target_opacity, fade_timer)
+		if modulate.a <= target_opacity:
+			is_fading_in = false  # Stop fading in when we reach target
+
+	elif is_fading_out:
+		# Gradually restore the opacity
+		fade_timer += delta * fade_speed
+		modulate.a = lerp(modulate.a, 1.0, fade_timer)
+		if modulate.a >= 1.0:
+			is_fading_out = false  # Stop fading out when we reach fully opaque
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"Player\"):  # Check if the body is the player
+		is_fading_in = true  # Start fading in
+		fade_timer = 0.0  # Reset timer for the fade
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group(\"Player\"):  # Check if the body is the player
+		is_fading_out = true  # Start fading out
+		fade_timer = 0.0  # Reset timer for the fade
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ce3is"]
+shader = ExtResource("4_uhbr3")
+shader_parameter/brightness = 0.2
+shader_parameter/contrast = 0.3
+shader_parameter/saturation = 0.2
+
+[node name="Control" type="CanvasLayer"]
+script = ExtResource("1_bsog3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 240.0
+offset_bottom = 20.0
+color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_xucgs")
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+offset_top = 136.0
+offset_right = 240.0
+offset_bottom = 148.0
+color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_xucgs")
+
+[node name="time" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+offset_left = 212.0
+offset_right = 452.0
+offset_bottom = 21.0
+text = "time
+  0"
+label_settings = ExtResource("1_qfniy")
+
+[node name="lives" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+offset_left = 20.0
+offset_top = 4.0
+offset_right = 60.0
+offset_bottom = 27.0
+text = "x 0"
+label_settings = ExtResource("1_qfniy")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+texture_filter = 1
+material = ExtResource("3_yep11")
+position = Vector2(10, 7)
+texture = ExtResource("2_ymde8")
+
+[node name="score" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+offset_left = 208.0
+offset_top = 136.0
+offset_right = 248.0
+offset_bottom = 159.0
+text = "0000"
+label_settings = ExtResource("1_qfniy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.6
+autostart = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_ce3is")
+offset_right = 240.0
+offset_bottom = 148.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="timeout" from="Timer" to="." method="add_time"]

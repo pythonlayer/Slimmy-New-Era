@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvwjp1703o2bj"]
+
+[ext_resource type="Material" uid="uid://cca5e5lxtit6g" path="res://assets/shaders/new_shader_material.tres" id="1_87wtm"]
+[ext_resource type="Script" path="res://assets/scripts/movingPlatform.gd" id="2_dtgqe"]
+[ext_resource type="TileSet" uid="uid://c4p4bdblxuyvg" path="res://assets/resources/movingp.tres" id="3_feook"]
+
+[node name="TileMap" type="PathFollow2D"]
+texture_filter = 1
+material = ExtResource("1_87wtm")
+position = Vector2(69.3791, 0)
+script = ExtResource("2_dtgqe")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 252, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 253, 255, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 254, 255, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("3_feook")

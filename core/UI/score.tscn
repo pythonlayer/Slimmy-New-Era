@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://byc4p8wohaplb"]
+
+[ext_resource type="Script" path="res://assets/scripts/score.gd" id="1_8s2wd"]
+[ext_resource type="FontFile" uid="uid://rvixoigggb3s" path="res://assets/fonts/SMW.otf" id="2_hlqmm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ddxb2"]
+line_spacing = -1.0
+font = ExtResource("2_hlqmm")
+font_size = 8
+font_color = Color(0.752941, 0.796078, 0.862745, 1)
+
+[node name="AnimatableBody2D" type="AnimatableBody2D"]
+texture_filter = 1
+script = ExtResource("1_8s2wd")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "100"
+label_settings = SubResource("LabelSettings_ddxb2")

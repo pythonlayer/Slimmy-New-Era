@@ -1,0 +1,211 @@
+[gd_scene load_steps=22 format=3 uid="uid://dh6ghj31qs7gl"]
+
+[ext_resource type="PackedScene" uid="uid://biwj22mb4l0nf" path="res://levels/tile_map.tscn" id="1_abkpg"]
+[ext_resource type="Material" uid="uid://cca5e5lxtit6g" path="res://assets/shaders/new_shader_material.tres" id="2_ejowu"]
+[ext_resource type="Script" path="res://assets/scripts/animatable.gd" id="3_s2c8y"]
+[ext_resource type="PackedScene" uid="uid://soh7ouj8arp7" path="res://core/UI/UI1.tscn" id="4_kwj0a"]
+[ext_resource type="AudioStream" uid="uid://5rd501oulsd4" path="res://assets/music/SamineGameTitleScreen.wav" id="5_ltd55"]
+[ext_resource type="Texture2D" uid="uid://cdcywiyhtqo1b" path="res://assets/images/BG-sky.png" id="6_0kmmk"]
+[ext_resource type="Texture2D" uid="uid://vn1vcg6p4cs" path="res://assets/images/tile sets/BG-clouds.png" id="7_fkkrh"]
+[ext_resource type="Script" path="res://assets/scripts/bg_clouds.gd" id="8_nxew0"]
+[ext_resource type="Texture2D" uid="uid://cw3o5nt32b0um" path="res://assets/images/BG-water.png" id="9_5ce3g"]
+[ext_resource type="Texture2D" uid="uid://bnjnylseigxi7" path="res://assets/images/BG-mountains.png" id="10_k6xd7"]
+[ext_resource type="Texture2D" uid="uid://d1smrwhkfr7sv" path="res://assets/images/BG-grass.png" id="11_e21yr"]
+
+[sub_resource type="Animation" id="Animation_b3253"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(48, 128)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_6ub6r"]
+resource_name = "animated"
+length = 18.875
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterBody2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.06667, 7.73333, 13.3, 16),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(48, 128), Vector2(48, 128), Vector2(240, 128), Vector2(528, 160), Vector2(768, 176)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_un08s"]
+_data = {
+"RESET": SubResource("Animation_b3253"),
+"animated": SubResource("Animation_6ub6r")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g7tg"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(0, 0, 240, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbdfo"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(240, 0, 240, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5oblg"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(480, 0, 240, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xba1i"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(720, 0, 240, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5orr0"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(960, 0, 240, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtlla"]
+atlas = ExtResource("7_fkkrh")
+region = Rect2(1200, 0, 240, 116)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ukbwq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3g7tg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbdfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5oblg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xba1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5orr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtlla")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_abkpg")]
+material = ExtResource("2_ejowu")
+position = Vector2(85, 172)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(48, 128)
+script = ExtResource("3_s2c8y")
+
+[node name="ColorRect" type="ColorRect" parent="CharacterBody2D"]
+visible = false
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(48, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_un08s")
+}
+
+[node name="Control" parent="." instance=ExtResource("4_kwj0a")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ltd55")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
+use_parent_material = true
+motion_scale = Vector2(0.1, 0)
+motion_mirroring = Vector2(240, 116)
+
+[node name="Bg-sky" type="Sprite2D" parent="ParallaxBackground/sky"]
+texture_filter = 1
+material = ExtResource("2_ejowu")
+texture = ExtResource("6_0kmmk")
+centered = false
+
+[node name="clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0)
+motion_mirroring = Vector2(240, 0)
+
+[node name="Bg-clouds" type="AnimatedSprite2D" parent="ParallaxBackground/clouds"]
+texture_filter = 1
+material = ExtResource("2_ejowu")
+sprite_frames = SubResource("SpriteFrames_ukbwq")
+centered = false
+script = ExtResource("8_nxew0")
+
+[node name="water" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(240, 0)
+
+[node name="Bg-water" type="Sprite2D" parent="ParallaxBackground/water"]
+texture_filter = 1
+material = ExtResource("2_ejowu")
+texture = ExtResource("9_5ce3g")
+centered = false
+
+[node name="moutains" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0)
+motion_mirroring = Vector2(240, 0)
+
+[node name="Bg-mountains" type="Sprite2D" parent="ParallaxBackground/moutains"]
+texture_filter = 1
+material = ExtResource("2_ejowu")
+texture = ExtResource("10_k6xd7")
+centered = false
+
+[node name="grass" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.3)
+motion_mirroring = Vector2(240, 0)
+
+[node name="Bg-grass" type="Sprite2D" parent="ParallaxBackground/grass"]
+texture_filter = 1
+material = ExtResource("2_ejowu")
+position = Vector2(0, 116)
+texture = ExtResource("11_e21yr")
+centered = false
+
+[connection signal="animation_finished" from="Control/AnimationPlayer" to="CharacterBody2D" method="_on_animation_player_animation_finished"]
+
+[editable path="Control"]

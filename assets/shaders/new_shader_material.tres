@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cca5e5lxtit6g"]
+
+[ext_resource type="Shader" path="res://assets/shaders/ligthen.gdshader" id="1_ks1aa"]
+
+[resource]
+shader = ExtResource("1_ks1aa")
+shader_parameter/brightness = 0.1
+shader_parameter/contrast = -0.1
+shader_parameter/saturation = 0.2

@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://q0cf7sko03h8"]
+
+[ext_resource type="FontFile" uid="uid://rvixoigggb3s" path="res://assets/fonts/SMW.otf" id="1_rfx1y"]
+
+[resource]
+line_spacing = 0.0
+font = ExtResource("1_rfx1y")
+font_size = 8
