@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://c04mww3ox6vo"]
+[gd_scene load_steps=29 format=4 uid="uid://c04mww3ox6vo"]
 
 [ext_resource type="Material" uid="uid://cca5e5lxtit6g" path="res://assets/shaders/new_shader_material.tres" id="1_ids60"]
 [ext_resource type="Texture2D" uid="uid://cdcywiyhtqo1b" path="res://assets/images/BG-sky.png" id="2_3go11"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dwwxqd04mnkw2" path="res://core/UI/UI.tscn" id="13_pxeul"]
 [ext_resource type="PackedScene" uid="uid://dvwjp1703o2bj" path="res://assets/images/tile sets/movingp.tscn" id="13_qycao"]
 [ext_resource type="PackedScene" uid="uid://b6xqigl8xbqn7" path="res://entities/bulbose.tscn" id="16_ebjlv"]
+[ext_resource type="AudioStream" uid="uid://c3uua0wisca1v" path="res://assets/music/SamineGameAncientRuin.ogg" id="17_j5fif"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3g7tg"]
 atlas = ExtResource("3_ilr1w")
@@ -195,6 +196,10 @@ _data = {
 }
 point_count = 3
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7x1uo"]
+normal = Vector2(1, 0)
+distance = -50.0
+
 [node name="Main" type="Node2D"]
 material = ExtResource("1_ids60")
 
@@ -290,6 +295,11 @@ position = Vector2(-36, 110)
 floor_stop_on_slope = false
 floor_snap_length = 3.6
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
+position = Vector2(36, -110)
+stream = ExtResource("17_j5fif")
+autoplay = true
+
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 process_mode = 3
 position = Vector2(45, 101)
@@ -331,6 +341,11 @@ scale = Vector2(0.7, 0.75)
 
 [node name="Bulbose2" parent="." instance=ExtResource("16_ebjlv")]
 position = Vector2(64, 96)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_7x1uo")
 
 [editable path="TileMap"]
 [editable path="Node/Path2D/TileMap"]

@@ -27,7 +27,8 @@ func _on_body_entered(body: Node2D) -> void:
 		# Update global score and increase the score for the next hit
 		Global.score += base_score
 		base_score += 100
-		
+		$AudioStreamPlayer2D.play()
+		$AudioStreamPlayer2D.pitch_scale = randf_range(0.8, 1.2)
 		# Check if hit points are depleted, then play particle effect and call kill function
 		if hit_points <= 0:
 			kill()

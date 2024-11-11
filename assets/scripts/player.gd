@@ -33,7 +33,7 @@ const ANIM_RUN = "run"
 const ANIM_JUMP = "jump"
 const ANIM_LOOK_UP = "look_up"
 const ANIM_LOOK_DOWN = "look_down"
-
+var played :bool = true
 # Timers for jump assistance
 @onready var rodeo: Timer = $rodeo
 @onready var help: Timer = $help
@@ -134,15 +134,24 @@ func jump() -> float:
 	return -(base_speed + speed_incr * int(velocity.x) / 30)
 
 func apply_gravity(delta: float) -> void:
-	var current_gravity = gravity_a_pressed if Input.is_action_pressed("A") else gravity_normal
-	
+	var current_gravity = gravity_normal
+	if Input.is_action_pressed("A"):
+		current_gravity = gravity_a_pressed
+	if velocity.y > 0:
+		current_gravity*=1.5
 	if !is_on_floor():
 		velocity.y += current_gravity * delta
 	elif velocity.y > 0:
 		velocity.y = 0
 
 func update_animation() -> void:
+	if !is_jumping:
+		played=false
 	if is_jumping:
+		if !played:
+			$sound.play()
+			
+			played = true
 		sprite.play(ANIM_JUMP)
 	elif abs(velocity.x) > 0:
 		if abs(velocity.x) > 75:

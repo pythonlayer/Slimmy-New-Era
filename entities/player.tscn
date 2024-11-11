@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://cqe8uj0t3qdqv"]
+[gd_scene load_steps=25 format=3 uid="uid://cqe8uj0t3qdqv"]
 
 [ext_resource type="Script" path="res://assets/scripts/player.gd" id="1_pee3g"]
 [ext_resource type="Texture2D" uid="uid://bs001oodxc6so" path="res://assets/images/Player.png" id="2_67f0c"]
+[ext_resource type="AudioStream" uid="uid://uqsrxa85rg4m" path="res://assets/music/jump.wav" id="3_i18tc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eoiof"]
 size = Vector2(17, 11)
@@ -186,6 +187,7 @@ sprite_frames = SubResource("SpriteFrames_ss0hp")
 animation = &"look_up"
 
 [node name="sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_i18tc")
 
 [node name="wallrayright" type="RayCast2D" parent="."]
 target_position = Vector2(-12, 0)

@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmlvn0dad06ff"]
+[gd_scene load_steps=3 format=3 uid="uid://cmlvn0dad06ff"]
 
 [ext_resource type="Script" path="res://assets/scripts/area_2d.gd" id="1_axqub"]
+[ext_resource type="AudioStream" uid="uid://5c8iqc7g3fj" path="res://assets/music/hitHurt.wav" id="2_faedv"]
 
 [node name="HitBox" type="Area2D"]
 script = ExtResource("1_axqub")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_faedv")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
